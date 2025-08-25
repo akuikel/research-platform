@@ -1,14 +1,22 @@
+<<<<<<< HEAD
 // App.js - Enhanced with Fisk Email Authentication
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import './App.css';
 import './Login.css';
+=======
+// App.js - Main Application Component
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import './App.css';
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
 
 // Supabase configuration
 const supabaseUrl = 'https://srrgioaefwfbynlbnphc.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNycmdpb2FlZndmYnlubGJucGhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2Mzg2NzgsImV4cCI6MjA3MTIxNDY3OH0.7EGDcdqeXr7RoJkm1Gkfo-otxJjq3mxp-5OL71e10JE';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+<<<<<<< HEAD
 // Allowed email domains for Fisk University
 const ALLOWED_DOMAINS = ['@my.fisk.edu', '@fisk.edu'];
 
@@ -130,6 +138,14 @@ const Header = ({ user, onLogout, onShowLogin }) => (
     <div className="header-left">
       <div className="university-logo">FU</div>
       <span className="header-title">Fisk University Research Portal</span>
+=======
+// Components
+const Header = ({ user, onLogout }) => (
+  <div className="header">
+    <div className="header-left">
+      <div className="university-logo">RU</div>
+      <span className="header-title">Research University Portal</span>
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
     </div>
     <div className="header-right">
       {user ? (
@@ -138,7 +154,11 @@ const Header = ({ user, onLogout, onShowLogin }) => (
           <button onClick={onLogout} className="logout-btn">Logout</button>
         </>
       ) : (
+<<<<<<< HEAD
         <button onClick={onShowLogin} className="login-btn">Log In</button>
+=======
+        <button className="login-btn">Log In</button>
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
       )}
     </div>
   </div>
@@ -302,6 +322,7 @@ const getMatchClass = (score) => {
   return 'low';
 };
 
+<<<<<<< HEAD
   const OpportunitiesList = ({ opportunities, userType, onApply }) => {
     const [filter, setFilter] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
@@ -319,6 +340,20 @@ const getMatchClass = (score) => {
     console.log('🔍 Filtered opportunities:', filteredOpportunities);
 
     return (
+=======
+const OpportunitiesList = ({ opportunities, userType, onApply }) => {
+  const [filter, setFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredOpportunities = opportunities.filter(opp => {
+    const matchesSearch = opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         opp.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filter === 'all' || opp.department === filter;
+    return matchesSearch && matchesFilter;
+  });
+
+  return (
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
     <div className="main-content">
       <h1 className="page-title">Research Opportunities</h1>
       
@@ -361,6 +396,10 @@ const getMatchClass = (score) => {
               </p>
             </div>
             <div className="faculty-info">
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
               {opportunity.faculty_name}
             </div>
             <div>{opportunity.department}</div>
@@ -373,12 +412,16 @@ const getMatchClass = (score) => {
               {userType === 'student' ? (
                 <button 
                   className="action-btn btn-apply"
+<<<<<<< HEAD
                   onClick={(e) => {
                     console.log('Apply button clicked!');
                     console.log('Opportunity ID:', opportunity.id);
                     e.preventDefault();
                     onApply(opportunity.id);
                   }}
+=======
+                  onClick={() => onApply(opportunity.id)}
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
                 >
                   Apply
                 </button>
@@ -450,14 +493,18 @@ const App = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const [showLogin, setShowLogin] = useState(false);
   const [pendingApplicationId, setPendingApplicationId] = useState(null); // Track which opportunity user wants to apply for
+=======
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
 
   useEffect(() => {
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+<<<<<<< HEAD
       if (session?.user) {
         // Validate that existing user has Fisk email
         if (isValidFiskEmail(session.user.email)) {
@@ -468,11 +515,17 @@ const App = () => {
           supabase.auth.signOut();
           setAuthError('Access restricted to Fisk University email addresses');
         }
+=======
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        loadUserProfile(session.user.id);
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
       }
       setLoading(false);
     });
 
     // Listen for auth changes
+<<<<<<< HEAD
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         // Validate Fisk email on auth
@@ -496,6 +549,12 @@ const App = () => {
       } else {
         setUser(null);
         setUserProfile(null);
+=======
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        loadUserProfile(session.user.id);
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
       }
     });
 
@@ -503,6 +562,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+<<<<<<< HEAD
     // Load opportunities for everyone (logged in or not)
     loadOpportunities();
     
@@ -580,12 +640,30 @@ const App = () => {
 
       if (student) {
         console.log('Found student profile:', student);
+=======
+
+      loadOpportunities();
+      loadApplications();
+  }, [user, userType]);
+
+  const loadUserProfile = async (userId) => {
+    try {
+      // Try to find user in students table first
+      const { data: student } = await supabase
+        .from('students')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (student) {
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
         setUserProfile(student);
         setUserType('student');
         return;
       }
 
       // If not found, try faculty table
+<<<<<<< HEAD
       const { data: faculty, error: facultyError } = await supabase
         .from('faculty')
         .select('*')
@@ -611,12 +689,25 @@ const App = () => {
       setUserProfile(defaultProfile);
       setUserType('student');
       
+=======
+      const { data: faculty } = await supabase
+        .from('faculty')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (faculty) {
+        setUserProfile(faculty);
+        setUserType('faculty');
+      }
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
     } catch (error) {
       console.error('Error loading user profile:', error);
     }
   };
 
   const loadOpportunities = async () => {
+<<<<<<< HEAD
     console.log('Loading opportunities...');
     try {
       const { data, error } = await supabase
@@ -635,6 +726,19 @@ const App = () => {
       
     } catch (error) {
       console.error('Catch block error:', error);
+=======
+    try {
+      const { data, error } = await supabase
+        .from('opportunities')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setOpportunities(data || []);
+    } catch (error) {
+      console.error('Error loading opportunities:', error);
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
     }
   };
 
@@ -671,6 +775,7 @@ const App = () => {
   };
 
   const handleApply = async (opportunityId) => {
+<<<<<<< HEAD
     console.log('Apply button clicked for opportunity:', opportunityId);
     console.log('Current user:', user);
     console.log('User profile:', userProfile);
@@ -710,11 +815,50 @@ const handleLogout = async () => {
     console.error('Logout error:', error);
   }
 };
+=======
+    if (!user || !userProfile || userType !== 'student') {
+      alert('Please log in as a student to apply');
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .insert({
+          student_id: userProfile.id,
+          opportunity_id: opportunityId,
+          status: 'pending'
+        });
+
+      if (error) throw error;
+      
+      alert('Application submitted successfully!');
+      loadApplications(); // Reload applications
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert('Error submitting application. Please try again.');
+    }
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setUserProfile(null);
+  };
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
 
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
+<<<<<<< HEAD
         return userType === 'student' && user ? (
+=======
+        return userType === 'student' ? (
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
           <StudentDashboard 
             student={userProfile} 
             opportunities={opportunities}
@@ -753,6 +897,7 @@ const handleLogout = async () => {
     }
   };
 
+<<<<<<< HEAD
   // Temporarily comment out loading check
   // if (loading) {
   //   return <div className="loading">Loading...</div>;
@@ -772,6 +917,11 @@ const handleLogout = async () => {
   return (
     <div className="App">
       <Header user={user} onLogout={handleLogout} onShowLogin={() => setShowLogin(true)} />
+=======
+  return (
+    <div className="App">
+      <Header user={user} onLogout={handleLogout} />
+>>>>>>> 0bd91dda4dd05959a23dca1d40f4e45f21d82e51
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} userType={userType} />
       {renderContent()}
     </div>
